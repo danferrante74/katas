@@ -1,12 +1,12 @@
 package com.appia.techtest.poemgenerator.commands;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.appia.techtest.poemgenerator.RulesArgumentException;
-import com.appia.techtest.poemgenerator.PoemGeneratorConstants;
 import com.appia.techtest.poemgenerator.KeyValueRulesManager;
+import com.appia.techtest.poemgenerator.PoemGeneratorConstants;
+import com.appia.techtest.poemgenerator.RulesArgumentException;
 
 public class KeyValueRuleCommand implements IRuleCommand<String> {
 
@@ -25,7 +25,7 @@ public class KeyValueRuleCommand implements IRuleCommand<String> {
 	public KeyValueRuleCommand( String name, String rule ) throws RulesArgumentException 
 	{
 		if( name == null || rule == null ) throw new RulesArgumentException( INVALID_NAME_OR_RULE_SUPPLIED );
-		this.randomWordsList = new LinkedList<String[]>();
+		this.randomWordsList = new ArrayList<String[]>();
 		this.name = name;
 		this.loadRule( rule );
 		this.random = new Random();
