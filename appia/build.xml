@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="build-poemgenerator" default="bootstrap" basedir=".">
+
+	<property name="src.java.dir" value="./src"/>
+	<property name="src.javatest.dir" value="./test"/>
+	<property name="build.dir" value="./antbin"/>
+	<property name="base-package" value="com/appia/techtest/poemgenerator"/>
+	<property name="command-package" value="${base-package}/commands"/>
+	<property name="messages" value="messages.properties"/>
+	
+	<property name="lib.dir" value="./lib"/>
+	<property name="config.file" value="./conf/poem-rules.config"/>
+	<property name="jar.file" value="${lib.dir}/poemgen.jar"/>
+	<property name="class.name" value="com.appia.techtest.poemgenerator.PoemGeneratorDriver"/>
+	
+	<target name="bootstrap">
+	</target>
+
+	<target name="build.all" depends="init.java, build.java">
+		<antcall target="build.jar"/>	
+	</target>
+
+	<target name="init.java" depends="clean.java">
+		<mkdir dir="${build.dir}"/>
+		<path id="compiler.classpathref">
+		</path>
+	</target>
+
+	<target name="clean.java">
+		<delete dir="${build.dir}" verbose="${delete.verbose}"/>
+		<delete dir="${lib.dir}" verbose="${delete.verbose}"/>
+	</target>
+
+	<target name="build.java">
+		  <javac srcdir="${src.java.dir}" destdir="${build.dir}" debug="on"/>
+		  <copy file="${src.java.dir}/${base-package}/${messages}" todir="${build.dir}/${base-package}"/>
+		  <copy file="${src.java.dir}/${command-package}/${messages}" todir="${build.dir}/${command-package}"/>
+	</target>
+	
+	<target name="build.jar">
+		<mkdir dir="${lib.dir}"/>
+		 <jar destfile="${jar.file}" basedir="${build.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${class.name}"/>
+            </manifest>
+		 </jar>
+	</target>
+	
+	<target name="run.jar">
+		<java jar="${jar.file}" 
+			fork="true" failonerror="true">
+		 	<arg value="${config.file}"/>
+		</java>
+	</target>
+</project>
